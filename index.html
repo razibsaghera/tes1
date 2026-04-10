@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TheRazerr Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* --- CSS UTAMA --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px 5%;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.5;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            padding: 0 5%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%), 
+                        url('wall.png') no-repeat center center;
+            background-size: cover;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(40px, 12vw, 150px);
+            line-height: 0.85;
+            font-weight: 300;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+        }
+
+        .hero-text span { font-weight: 700; }
+
+        .hero-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            position: absolute;
+            bottom: 40px;
+            left: 5%;
+            right: 5%;
+            z-index: 2;
+        }
+
+        .hero-desc {
+            font-size: 10px;
+            letter-spacing: 1px;
+            line-height: 1.6;
+            text-transform: uppercase;
+            max-width: 600px;
+        }
+
+        /* UPDATE: Hero Copyright untuk Logo Discord */
+        .hero-copyright {
+            font-size: 10px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .hero-copyright i {
+            font-size: 14px;
+        }
+
+        /* --- GALLERY SECTION --- */
+        .gallery-section {
+            padding: 100px 0 50px 5%;
+            background-color: #000;
+        }
+
+        .gallery-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            padding-right: 5%;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 1px solid #444;
+            color: #fff;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .gallery-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 30px;
+            scrollbar-width: none;
+        }
+
+        .gallery-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-item {
+            flex: 0 0 450px;
+            scroll-snap-align: start;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(0.98);
+        }
+
+        .gallery-item h3 { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+        .gallery-item p { font-size: 9px; color: #666; text-transform: uppercase; }
+
+        .gallery-footer-large {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-right: 5%;
+            border-top: 1px solid #222;
+            padding-top: 40px;
+            margin-top: 20px;
+        }
+
+        /* Styling untuk Tanggal Full */
+        .page-number { 
+            font-size: clamp(30px, 5vw, 60px); 
+            font-weight: 300;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+        
+        .large-title { 
+            font-size: clamp(40px, 10vw, 140px); 
+            font-weight: 400; 
+            letter-spacing: -2px; 
+            line-height: 1;
+        }
+
+        /* --- MODAL POP-UP --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            animation: zoom 0.3s ease;
+        }
+
+        @keyframes zoom {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">My Portfolio</div>
+        <div class="nav-links">
+            <a href="#gallery-target">GALLERY</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-text">
+            <h1>HELLO, I'M<br><span>TheRazerr</span></h1>
+        </div>
+        <div class="hero-footer">
+            <div class="hero-desc">
+                A Minecraft builder from Indonesia. I specialize in detailed builds,<br>
+                ranging from modern architecture to futuristic cities.
+            </div>
+            <div class="hero-copyright">
+                <i class="fa-brands fa-discord"></i>
+                TheRazer#3489
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery-section" id="gallery-target">
+        <div class="gallery-controls">
+            <button class="nav-btn" onclick="slideGallery(-470)">←</button>
+            <button class="nav-btn" onclick="slideGallery(470)">→</button>
+        </div>
+
+        <div class="gallery-grid" id="slider">
+            <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                <img src="port1.png" alt="1">
+                <h3>NOTES ON VISION</h3>
+                <p>12 IMAGES</p>
+            </div>
+            <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                <img src="port2.png" alt="2">
+                <h3>UNDESIGNATED</h3>
+                <p>09 IMAGES</p>
+            </div>
+            <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                <img src="port3.png" alt="3">
+                <h3>FLORENCE</h3>
+                <p>20 IMAGES</p>
+            </div>
+            <div class="gallery-item" onclick="openModal(this.querySelector('img').src)">
+                <img src="port4.png" alt="4">
+                <h3>COHERENCE</h3>
+                <p>15 IMAGES</p>
+            </div>
+        </div>
+        
+        <div class="gallery-footer-large">
+            <span class="page-number" id="full-date">00 / 00 / 00</span>
+            <h2 class="large-title">GALLERY</h2>
+        </div>
+    </section>
+
+    <div id="myModal" class="modal" onclick="closeModal()">
+        <img class="modal-content" id="imgFull">
+    </div>
+
+    <script>
+        function updateFullDate() {
+            const now = new Date();
+            const date = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); 
+            const year = String(now.getFullYear()).substring(2); 
+
+            const formattedDate = `${date} / ${month} / ${year}`;
+            document.getElementById('full-date').innerText = formattedDate;
+        }
+
+        updateFullDate();
+
+        function slideGallery(amount) {
+            document.getElementById('slider').scrollBy({
+                left: amount,
+                behavior: 'smooth'
+            });
+        }
+
+        function openModal(src) {
+            document.getElementById("myModal").style.display = "flex";
+            document.getElementById("imgFull").src = src;
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    </script>
+
+</body>
+</html>
